@@ -35,6 +35,6 @@ class ProfileController extends Controller
         }
         $user->save($user);
 
-        return redirect()->route('dashboard')->with('success', 'Profil mis à jour avec succès !');
+        return redirect()->intended(route('dashboard'))->with('success', 'Profil mis à jour avec succès !');
     }
 }

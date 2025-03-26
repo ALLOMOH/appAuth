@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title> @yield('title','AppAuth')  </title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -20,7 +20,43 @@
         @endif
     </head>
     <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
+        <header class="w-full flex justify-between items-center fixed backdrop-blur-2xl top-0">
+            <nav class="flex gap-4 w-full  justify-between items-center  py-10 px-20 ">
+                @auth
+                    <a href="{{ route('dashboard') }}" class="text-2xl font-bold text-white">Dashboard</a>
 
+                    <ul class="flex gap-10 items-center">
+                        <li>
+                            <a href="{{ route('profile.index') }}" class="text-2xl font-bold text-white">{{ $user->name }}</a>
+                        </li>
+                        <li>
+                            <form action="{{ route('auth.logout') }}" method="POST">
+                                @method('post')
+                                @csrf
+                                <input type="hidden" value="DELETE">
+                                
+                                <button type="submit" class="text-2xl font-bold bg-red-800 outlein-0 hover:bg-red-500 transition-all ease-linear .3s px-4 py-3 rounded text-white">Se deconnecter</button>
+
+                            </form>
+                        </li>
+                    </ul>
+
+                @endauth
+                @guest
+                    <a href="/" class="text-2xl font-bold text-white">Welcome AppAuth</a>
+
+                    <ul class="flex gap-10 items-center">
+                        <li>
+                            <a href="{{ route('auth.login') }}" class="text-2xl font-bold bg-blue-800 outlein-0 hover:bg-blue-500 transition-all ease-linear .3s px-4 py-3 rounded text-white">Se connecter</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('auth.register') }}" class=" outline-0  hover:bg-green-300 bg-green-500 transition-all ease-linear .3s px-4  py-3 rounded  text-2xl font-bold  text-white">S'inscrire</a>
+                        </li>
+                    </ul>
+
+                @endguest
+            </nav>
+        </header>
 
         <main class="w-full  lg:max-w-4xl max-w-[335px]">
             @yield('content')
